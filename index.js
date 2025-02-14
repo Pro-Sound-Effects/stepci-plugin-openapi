@@ -23,7 +23,7 @@ const defaultOptions = {
 
 JSONSchemaFaker.format('binary', () => 'file.txt')
 
-async function generateWorkflow (file, options) {
+async function generateWorkflow(file, options) {
   options = merge(defaultOptions, options)
 
   JSONSchemaFaker.option({
@@ -73,8 +73,8 @@ async function generateWorkflow (file, options) {
           const value =
             param.schema?.default
             || param.example
-            || (param.examples && Object.keys(param.examples > 0) ? Object.values(param.examples)[0].value : false)
-            || param.schema ? JSONSchemaFaker.generate(param.schema, taggedSchemas) : false
+            || (param.examples && Object.keys(param.examples).length > 0 ? Object.values(param.examples)[0] : false)
+            || (param.schema ? JSONSchemaFaker.generate(param.schema, taggedSchemas) : false)
 
           if (param.in === 'path' && options.generator.pathParams) {
             step.http.url = step.http.url.replace(`{${param.name}}`, value)
@@ -103,8 +103,8 @@ async function generateWorkflow (file, options) {
         for (const contentType in requestBody) {
           const body =
             requestBody[contentType].example
-            || (requestBody[contentType].examples && Object.keys(requestBody[contentType].examples) > 0) ? Object.values(requestBody[contentType].examples)[0].value : false
-            || JSONSchemaFaker.generate(requestBody[contentType].schema, taggedSchemas)
+            || ((requestBody[contentType].examples && Object.keys(requestBody[contentType].examples).length > 0) ? Object.values(requestBody[contentType].examples)[0].value : false)
+            || (requestBody[contentType].schema ? JSONSchemaFaker.generate(requestBody[contentType].schema, taggedSchemas) : false)
 
           if (!step.http.headers) step.http.headers = {}
           const bodyExists = step.http.json || step.http.xml || step.http.body || step.http.form || step.http.formData
@@ -153,7 +153,7 @@ async function generateWorkflow (file, options) {
 
       if (swagger.paths[path][method].responses) {
         const response = Object.values(swagger.paths[path][method].responses)[0]
-        const responseContent =  response.content?.[options.contentType]
+        const responseContent = response.content?.[options.contentType]
 
         if (response) {
           if (Object.keys(options.check).length !== 0) step.http.check = {}
@@ -210,7 +210,7 @@ async function generateWorkflow (file, options) {
   return workflow
 }
 
-async function generateWorkflowFile (file, output, options) {
+async function generateWorkflowFile(file, output, options) {
   return fs.promises.writeFile(output, dump(await generateWorkflow(file, options), {
     quotingType: '"'
   }))
