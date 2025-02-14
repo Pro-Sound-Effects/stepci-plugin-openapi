@@ -171,8 +171,14 @@ async function generateWorkflow (file, options) {
             step.http.check.schema = responseContent.schema
           }
 
+          const jsonPathIndicator = "$."
+
           if (options.check.examples) {
-            step.http.check.json = responseContent.example || (responseContent.examples ? Object.values(responseContent.examples)[0].value : undefined)
+            if (responseContent.example && JSON.stringify(responseContent.example).includes(jsonPathIndicator) || (responseContent.examples && JSON.stringify(Object.values(responseContent.examples)[0].value).includes(jsonPathIndicator))) {
+              step.http.check.jsonpath = responseContent.example || (responseContent.examples ? Object.values(responseContent.examples)[0].value : undefined)
+            } else {
+              step.http.check.json = responseContent.example || (responseContent.examples ? Object.values(responseContent.examples)[0].value : undefined)
+            }
           }
         }
       }
