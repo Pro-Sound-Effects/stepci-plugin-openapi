@@ -171,7 +171,7 @@ async function generateWorkflow(file, options) {
             step.http.check.schema = responseContent.schema
           }
 
-          const jsonPathIndicator = "$."
+          const jsonPathIndicator = "$"
 
           if (options.check.examples) {
             if (responseContent.example && JSON.stringify(responseContent.example).includes(jsonPathIndicator) || (responseContent.examples && JSON.stringify(Object.values(responseContent.examples)[0].value).includes(jsonPathIndicator))) {
