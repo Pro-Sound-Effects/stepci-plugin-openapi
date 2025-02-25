@@ -11,7 +11,7 @@ const defaultOptions = {
     optionalParams: true,
     useExampleValues: true,
     useDefaultValues: true,
-    inlineSchema: true
+    inlineSchema: false
   },
   check: {
     status: true,
