@@ -11,7 +11,7 @@ const defaultOptions = {
     optionalParams: true,
     useExampleValues: true,
     useDefaultValues: true,
-    inlineSchema: false
+    //inlineSchema: true
   },
   check: {
     status: true,
@@ -46,7 +46,7 @@ async function generateWorkflow(file, options) {
 
   const taggedSchemas = []
   if (swagger.components?.schemas) {
-    if (options.generator.inlineSchema) {
+    if (options.check.schema) {
       workflow.components = {
         schemas: swagger.components?.schemas
       }

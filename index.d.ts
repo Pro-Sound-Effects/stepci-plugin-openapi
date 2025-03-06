@@ -4,8 +4,7 @@ export declare type GenerateWorkflowOptions = {
     requestBody: boolean,
     optionalParams: boolean,
     useExampleValues: boolean,
-    useDefaultValues: boolean,
-    inlineSchema: boolean
+    useDefaultValues: boolean
   },
   check: {
     status: boolean,
